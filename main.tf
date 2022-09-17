@@ -59,3 +59,33 @@ resource "oci_core_network_security_group_security_rule" "main_80" {
     }
   }
 }
+
+resource "oci_core_network_security_group_security_rule" "main_4000" {
+  network_security_group_id = oci_core_network_security_group.main.id
+  direction                 = "INGRESS"
+  protocol                  = "6" // TCP
+
+  source      = local.cidr_block
+  source_type = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      max = 4000
+      min = 4000
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "main_5432" {
+  network_security_group_id = oci_core_network_security_group.main.id
+  direction                 = "INGRESS"
+  protocol                  = "6" // TCP
+
+  source      = local.cidr_block
+  source_type = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      max = 5432
+      min = 5432
+    }
+  }
+}
