@@ -11,6 +11,7 @@ locals {
   private_subnet_cidr_block = "10.0.0.0/24"
   public_subnet_cidr_block  = "10.0.1.0/24"
   main_ip                   = "10.0.0.10"
+  sub_ip                    = "10.0.0.11"
   vpn_ip                    = "10.0.1.10"
 }
 
@@ -21,4 +22,5 @@ variable "private_key" {}
 variable "compartment_id" {}
 variable "ssh_public_key" {}
 variable "main_boot_volume_ocid" {}
+variable "sub_boot_volume_ocid" {}
 variable "vpn_boot_volume_ocid" {}
