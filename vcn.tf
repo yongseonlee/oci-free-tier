@@ -38,10 +38,17 @@ resource "oci_core_internet_gateway" "main" {
   vcn_id         = oci_core_vcn.main.id
 }
 
+resource "oci_core_public_ip" "main" {
+  compartment_id = var.compartment_id
+  display_name   = "main-nat"
+  lifetime       = "RESERVED"
+}
+
 resource "oci_core_nat_gateway" "main" {
   display_name   = "main"
   compartment_id = var.compartment_id
   vcn_id         = oci_core_vcn.main.id
+  public_ip_id   = oci_core_public_ip.main.id
 }
 
 resource "oci_core_route_table" "public" {
