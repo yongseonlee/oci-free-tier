@@ -41,21 +41,6 @@ resource "oci_core_network_security_group_security_rule" "sub_ssh" {
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "sub_80" {
-  network_security_group_id = oci_core_network_security_group.sub.id
-  direction                 = "INGRESS"
-  protocol                  = "6" // TCP
-
-  source      = local.cidr_block
-  source_type = "CIDR_BLOCK"
-  tcp_options {
-    destination_port_range {
-      max = 80
-      min = 80
-    }
-  }
-}
-
 resource "oci_core_network_security_group_security_rule" "sub_4000" {
   network_security_group_id = oci_core_network_security_group.sub.id
   direction                 = "INGRESS"

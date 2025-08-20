@@ -50,7 +50,7 @@ resource "oci_core_network_security_group_security_rule" "main_80" {
   direction                 = "INGRESS"
   protocol                  = "6" // TCP
 
-  source      = local.cidr_block
+  source      = "0.0.0.0/0"
   source_type = "CIDR_BLOCK"
   tcp_options {
     destination_port_range {
@@ -60,22 +60,22 @@ resource "oci_core_network_security_group_security_rule" "main_80" {
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "main_4000" {
+resource "oci_core_network_security_group_security_rule" "main_443" {
   network_security_group_id = oci_core_network_security_group.main.id
   direction                 = "INGRESS"
   protocol                  = "6" // TCP
 
-  source      = local.cidr_block
+  source      = "0.0.0.0/0"
   source_type = "CIDR_BLOCK"
   tcp_options {
     destination_port_range {
-      max = 4000
-      min = 4000
+      max = 443
+      min = 443
     }
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "main_5432" {
+resource "oci_core_network_security_group_security_rule" "main_3000" {
   network_security_group_id = oci_core_network_security_group.main.id
   direction                 = "INGRESS"
   protocol                  = "6" // TCP
@@ -84,8 +84,38 @@ resource "oci_core_network_security_group_security_rule" "main_5432" {
   source_type = "CIDR_BLOCK"
   tcp_options {
     destination_port_range {
-      max = 5432
-      min = 5432
+      max = 3000
+      min = 3000
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "main_6443" {
+  network_security_group_id = oci_core_network_security_group.main.id
+  direction                 = "INGRESS"
+  protocol                  = "6" // TCP
+
+  source      = local.cidr_block
+  source_type = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      max = 6443
+      min = 6443
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "main_10250" {
+  network_security_group_id = oci_core_network_security_group.main.id
+  direction                 = "INGRESS"
+  protocol                  = "6" // TCP
+
+  source      = local.cidr_block
+  source_type = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      max = 10250
+      min = 10250
     }
   }
 }
