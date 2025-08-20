@@ -45,36 +45,6 @@ resource "oci_core_network_security_group_security_rule" "main_ssh" {
   }
 }
 
-resource "oci_core_network_security_group_security_rule" "main_80" {
-  network_security_group_id = oci_core_network_security_group.main.id
-  direction                 = "INGRESS"
-  protocol                  = "6" // TCP
-
-  source      = "0.0.0.0/0"
-  source_type = "CIDR_BLOCK"
-  tcp_options {
-    destination_port_range {
-      max = 80
-      min = 80
-    }
-  }
-}
-
-resource "oci_core_network_security_group_security_rule" "main_443" {
-  network_security_group_id = oci_core_network_security_group.main.id
-  direction                 = "INGRESS"
-  protocol                  = "6" // TCP
-
-  source      = "0.0.0.0/0"
-  source_type = "CIDR_BLOCK"
-  tcp_options {
-    destination_port_range {
-      max = 443
-      min = 443
-    }
-  }
-}
-
 resource "oci_core_network_security_group_security_rule" "main_3000" {
   network_security_group_id = oci_core_network_security_group.main.id
   direction                 = "INGRESS"
@@ -116,6 +86,51 @@ resource "oci_core_network_security_group_security_rule" "main_10250" {
     destination_port_range {
       max = 10250
       min = 10250
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "main_nodeport" {
+  network_security_group_id = oci_core_network_security_group.main.id
+  direction                 = "INGRESS"
+  protocol                  = "6" // TCP
+
+  source      = local.cidr_block
+  source_type = "CIDR_BLOCK"
+  tcp_options {
+    destination_port_range {
+      max = 32767
+      min = 30000
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "main_30080" {
+  network_security_group_id = oci_core_network_security_group.main.id
+  direction                 = "INGRESS"
+  protocol                  = "6" // TCP
+
+  source      = oci_core_network_security_group.nlb.id
+  source_type = "NETWORK_SECURITY_GROUP"
+  tcp_options {
+    destination_port_range {
+      max = 30080
+      min = 30080
+    }
+  }
+}
+
+resource "oci_core_network_security_group_security_rule" "main_30443" {
+  network_security_group_id = oci_core_network_security_group.main.id
+  direction                 = "INGRESS"
+  protocol                  = "6" // TCP
+
+  source      = oci_core_network_security_group.nlb.id
+  source_type = "NETWORK_SECURITY_GROUP"
+  tcp_options {
+    destination_port_range {
+      max = 30443
+      min = 30443
     }
   }
 }
